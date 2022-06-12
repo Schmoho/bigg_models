@@ -41,7 +41,6 @@ def make_all_static_models():
         pass
 
     failed_models = []
-    model_polisher_path = get_model_polisher()
     session = Session()
     bigg_ids = [i[0] for i in session.query(Model.bigg_id)]
     for bigg_id in bigg_ids:
@@ -50,14 +49,14 @@ def make_all_static_models():
         # keep track of which models failed
         print('------------------------------------------------------------\n'
               'Dumping model %s' % bigg_id)
-        if not write_static_model(bigg_id, model_polisher_path):
+        if not write_static_model(bigg_id):
             failed_models.append(bigg_id)
     session.close()
     if len(failed_models) > 0:
         return "Failed for models " + " ".join(failed_models)
 
 
-def write_static_model(bigg_id, model_polisher_path):
+def write_static_model(bigg_id):
     """Write out static files for a model with the given BiGG ID.
 
     This will output compressed and uncompressed SBML L3 + FBCv2, JSON,

@@ -32,17 +32,22 @@ def make_all_static_models():
     try:
         shutil.rmtree(static_dir)
     except OSError:
+        print("Could not shutil.rmtree:", static_dir)
         pass
 
     # make the directories
     try:
         makedirs(static_dir)
     except OSError:
+        print("Could not makedirs:", static_dir)
         pass
 
     failed_models = []
     session = Session()
+    print("Model.bigg_id:", Model.bigg_id)
+    print("session.query(Model.bigg_id):", session.query(Model.bigg_id))
     bigg_ids = [i[0] for i in session.query(Model.bigg_id)]
+    print("bigg_ids:", bigg_ids)
     for bigg_id in bigg_ids:
         if DEBUG and bigg_id != 'e_coli_core':
             continue
